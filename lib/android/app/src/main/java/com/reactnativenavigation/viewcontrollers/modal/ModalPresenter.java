@@ -3,6 +3,7 @@ package com.reactnativenavigation.viewcontrollers.modal;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.reactnativenavigation.anim.ModalAnimator;
@@ -13,6 +14,7 @@ import com.reactnativenavigation.viewcontrollers.ViewController;
 
 public class ModalPresenter {
 
+    private static final String TAG = "ModalPresenter";
     private ViewGroup content;
     private ModalAnimator animator;
     private Options defaultOptions = new Options();
@@ -30,6 +32,7 @@ public class ModalPresenter {
     }
 
     public void showModal(ViewController toAdd, ViewController toRemove, CommandListener listener) {
+        Log.d(TAG, "showModal with toRemove=" + toRemove);
         Options options = toAdd.resolveCurrentOptions(defaultOptions);
         toAdd.setWaitForRender(options.animations.showModal.waitForRender);
         content.addView(toAdd.getView());
@@ -55,7 +58,11 @@ public class ModalPresenter {
 
     private void onShowModalEnd(ViewController toAdd, ViewController toRemove, CommandListener listener) {
         if (toAdd.options.modal.presentationStyle != ModalPresentationStyle.OverCurrentContext) {
-            toRemove.detachView();
+            if (toRemove != null) {
+                toRemove.detachView();
+            } else {
+                Log.w(TAG, "could not detach view, was null");
+            }
         }
         listener.onSuccess(toAdd.getId());
     }

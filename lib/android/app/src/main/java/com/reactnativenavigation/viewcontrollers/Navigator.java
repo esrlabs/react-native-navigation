@@ -71,7 +71,7 @@ public class Navigator extends ParentController {
 
     @Override
     public boolean handleBack(CommandListener listener) {
-        if (modalStack.isEmpty()) return root.handleBack(listener);
+        if (modalStack.isEmpty() && root != null) return root.handleBack(listener);
         return modalStack.handleBack(listener, root);
     }
 
