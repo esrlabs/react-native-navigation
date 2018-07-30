@@ -2,6 +2,7 @@ package com.reactnativenavigation.views.touch;
 
 import android.graphics.Rect;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.reactnativenavigation.utils.UiUtils;
 import com.reactnativenavigation.viewcontrollers.IReactView;
 
 public class OverlayTouchDelegate {
+    private static final String TAG = "OverlayTouchDelegate";
+
     private enum TouchLocation {Outside, Inside}
     private final Rect hitRect = new Rect();
     private IReactView reactView;
@@ -40,6 +43,10 @@ public class OverlayTouchDelegate {
     @VisibleForTesting
     public boolean handleDown(MotionEvent event) {
         TouchLocation location = getTouchLocation(event);
+        if (location == null) {
+            Log.w(TAG, "could not get a touch location");
+            return false;
+        }
         if (location == TouchLocation.Inside) {
             reactView.dispatchTouchEventToJs(event);
         }

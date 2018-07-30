@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.reactnativenavigation.anim.ModalAnimator;
@@ -15,6 +16,8 @@ import com.reactnativenavigation.viewcontrollers.ViewController;
 public class ModalPresenter {
 
     private ViewGroup modalsContainer;
+    private ViewGroup content;
+    private static final String TAG = "ModalPresenter";
     private ModalAnimator animator;
     private Options defaultOptions = new Options();
 
@@ -65,7 +68,6 @@ public class ModalPresenter {
     private void onShowModalEnd(ViewController toAdd, @Nullable ViewController toRemove, CommandListener listener) {
         if (toRemove != null && toAdd.options.modal.presentationStyle != ModalPresentationStyle.OverCurrentContext) {
             toRemove.detachView();
-        }
         listener.onSuccess(toAdd.getId());
     }
 
