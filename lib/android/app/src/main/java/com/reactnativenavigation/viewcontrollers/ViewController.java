@@ -6,6 +6,7 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public abstract class ViewController<T extends ViewGroup> implements ViewTreeObserver.OnGlobalLayoutListener, ViewGroup.OnHierarchyChangeListener {
 
+    private static final String TAG = "ViewController";
     private Runnable onAppearedListener;
     private boolean appearEventPosted;
     private Bool waitForRender = new NullBool();
@@ -162,7 +164,16 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
     }
 
     public void detachView() {
-        ((ViewManager) view.getParent()).removeView(view);
+        if (view == null) {
+            Log.w(TAG, "could not detach view, view was null");
+            return;
+        }
+        ViewManager viewManager = ((ViewManager) view.getParent());
+        if (viewManager != null) {
+            viewManager.removeView(view);
+        } else {
+            Log.w(TAG, "could not detach view, viewManager was null");
+        }
     }
 
     public void attachView(ViewGroup parent, int index) {
