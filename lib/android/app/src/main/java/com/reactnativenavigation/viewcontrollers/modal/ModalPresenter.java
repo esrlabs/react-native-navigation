@@ -68,6 +68,7 @@ public class ModalPresenter {
     private void onShowModalEnd(ViewController toAdd, @Nullable ViewController toRemove, CommandListener listener) {
         if (toRemove != null && toAdd.options.modal.presentationStyle != ModalPresentationStyle.OverCurrentContext) {
             toRemove.detachView();
+        }
         listener.onSuccess(toAdd.getId());
     }
 
