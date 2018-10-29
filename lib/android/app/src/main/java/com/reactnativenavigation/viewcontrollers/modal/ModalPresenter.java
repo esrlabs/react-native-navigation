@@ -41,7 +41,7 @@ public class ModalPresenter {
         Options options = toAdd.resolveCurrentOptions(defaultOptions);
         toAdd.setWaitForRender(options.animations.showModal.waitForRender);
         modalsContainer.addView(toAdd.getView());
-        if (options.animations.showModal.enable.isTrueOrUndefined()) {
+        if (options.animations.showModal.enabled.isTrueOrUndefined()) {
             if (options.animations.showModal.waitForRender.isTrue()) {
                 toAdd.setOnAppearedListener(() -> animateShow(toAdd, toRemove, listener, options));
             } else {
@@ -86,7 +86,7 @@ public class ModalPresenter {
             listener.onError("Can not dismiss modal before activity is created");
             return;
         }
-        if (toDismiss.options.animations.dismissModal.enable.isTrueOrUndefined()) {
+        if (toDismiss.options.animations.dismissModal.enabled.isTrueOrUndefined()) {
             animator.dismiss(toDismiss.getView(), toDismiss.options.animations.dismissModal, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
