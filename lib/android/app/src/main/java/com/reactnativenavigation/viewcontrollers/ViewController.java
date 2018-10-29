@@ -33,7 +33,7 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
     private static final String TAG = "ViewController";
     private Runnable onAppearedListener;
     private boolean appearEventPosted;
-    private boolean isFirstayout = true;
+    private boolean isFirstLayout = true;
     private Bool waitForRender = new NullBool();
 
     public interface ViewVisibilityListener {
@@ -241,9 +241,9 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
 
     @Override
     public void onGlobalLayout() {
-        if (isFirstayout) {
+        if (isFirstLayout) {
             onAttachToParent();
-            isFirstayout = false;
+            isFirstLayout = false;
         }
         if (!isShown && isViewShown()) {
             if (!viewVisibilityListener.onViewAppeared(view)) {
